@@ -18,16 +18,16 @@
       <div>
         <label class="font-semibold block mb-2">Módulos activados:</label>
         <label class="flex items-center space-x-2">
-          <input type="checkbox" id="viajes" class="accent-indigo-600" />
-          <span>🚗 Viajes</span>
+          <input type="checkbox" id="viajes" class="accent-indigo-600" checked disabled />
+          <span>🚗 Viajes <span class="text-xs text-gray-500">(Necesario)</span></span>
         </label>
         <label class="flex items-center space-x-2">
           <input type="checkbox" id="temperatura" class="accent-indigo-600" />
-          <span>🌡️ Temperatura</span>
+          <span>🌡️ Temperatura <span class="text-xs text-gray-500">(Opcional)</span></span>
         </label>
         <label class="flex items-center space-x-2">
           <input type="checkbox" id="combustible" class="accent-indigo-600" />
-          <span>⛽ Combustible</span>
+          <span>⛽ Combustible <span class="text-xs text-gray-500">(Opcional)</span></span>
         </label>
       </div>
 
@@ -43,7 +43,9 @@
   </div>
 
   <script>
-    const preciosMXN = {
+    const tipoCambio = 17.00; // 1 USD = 17 MXN
+
+    const preciosUSD = {
       viajes: [1.50, 1.25, 1.00, 0.75],
       temperatura: [2.00, 2.00, 1.50, 1.00],
       combustible: [2.00, 2.00, 1.50, 1.00]
@@ -53,6 +55,13 @@
       viajes: 3.00,
       temperatura: 4.00,
       combustible: 5.00
+    };
+
+    // Convertimos a pesos mexicanos
+    const preciosMXN = {
+      viajes: preciosUSD.viajes.map(p => p * tipoCambio),
+      temperatura: preciosUSD.temperatura.map(p => p * tipoCambio),
+      combustible: preciosUSD.combustible.map(p => p * tipoCambio)
     };
 
     function getTier(unidades) {
@@ -66,7 +75,7 @@
       const unidades = parseInt(document.getElementById("unidades").value);
       const costoActual = parseFloat(document.getElementById("costoActual").value) || 0;
 
-      const usaViajes = document.getElementById("viajes").checked;
+      const usaViajes = true; // Siempre activo
       const usaTemperatura = document.getElementById("temperatura").checked;
       const usaCombustible = document.getElementById("combustible").checked;
 
